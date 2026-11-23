@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% set errors = errors | default({}, true) %}
+{% set values = values | default({}, true) %}
+
+  <section>
+    <h2>{{ heading }}</h2>
+
+    <form method="post" action="{{ action }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token(request) }}" />
+      {% if errors %}
+        <div role="alert">
+          <p><strong>Please fix the following:</strong></p>
+          <ul>
+            {% for field, message in errors.items() %}
+               <li>{{ field }}: {{ message }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      <p>
+        <label for="front">Front</label>
+        <textarea id="front" name="front" required rows="3">{{ values.front | default('', true) }}</textarea>
+        {% if errors.front %}
+           <small class="error" id="front-error">{{ errors.front }}</small>
+        {% endif %}
+      </p>
+
+      <p>
+        <label for="back">Back</label>
+        <textarea id="back" name="back" required rows="3">{{ values.back | default('', true) }}</textarea>
+        {% if errors.back %}
+            <small class="error" id="back-error">{{ errors.back }}</small>
+        {% endif %}
+      </p>
+
+      <p>
+        <button type="submit">Save</button>
+        <a href="{{ cancel | default('/decks', true) }}">Cancel</a>
+      </p>
+    </form>
+  </section>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Search{% endblock %}
+{% block content %}
+  <section>
+    <h2>Search decks</h2>
+
+    <form method="get" action="/search">
+      <label for="q">Title contains</label>
+      <input type="search" id="q" name="q" value="{{ q }}" />
+      <button type="submit">Search</button>
+    </form>
+
+    {% if q %}
+      {% if decks %}
+        <ul class="deck-list">
+          {% for deck in decks %}
+            <li><a href="/decks/{{ deck.id }}">{{ deck.title }}</a></li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No decks match.</p>
+      {% endif %}
+    {% endif %}
+  </section>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}List{% endblock %}
+{% block content %}
+  <section>
+    <h2>Decks</h2>
+    <p><a href="/decks/new">+ New deck</a></p>
+
+    {% if decks %}
+      <ul class="deck-list">
+        {% for deck in decks %}
+          <li>
+            <a href="/decks/{{ deck.id }}">{{ deck.title }}</a>
+            <small>{{ "Public" if deck.Visibility else "Private" }}</small>
+            {% if deck.description %}<p>{{ deck.description }}</p>{% endif %}
+            
+            {% if request.state.user and request.state.user.id == deck.User_id %}
+              <form method="post" action="/decks/{{ deck.id }}/delete">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token(request) }}" />
+                <a href="/decks/{{ deck.id }}/edit" class="button-link">Edit</a>
+                <button type="submit">Delete</button>
+              </form>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No decks yet. <a href="/decks/new">Add the first one.</a></p>
+    {% endif %}
+  </section>
+{% endblock %}

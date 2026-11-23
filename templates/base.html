@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en"{% if request.cookies.theme in ["light", "dark"] %} data-theme="{{ request.cookies.theme }}"{% endif %}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Flashcards{% endblock %}</title>
+    <link rel="stylesheet" href="/static/site.css?v=5" />
+    <script type="module" src="/static/app.js?v=5"></script>
+  </head>
+
+  <body>
+    <header>
+      <h1><a href="/">Flashcards</a></h1>
+      <nav aria-label="Main">
+        <ul>
+          <li>
+            <a href="/">Home</a>
+          </li>
+          
+          <li>
+            <a href="/decks" {% if active == "decks" %}aria-current="page"{% endif %}>Decks</a>
+          </li>
+          {% if request.state.user %}
+            <li>
+              <a href="/trivia/">Trivia</a>
+            </li>
+          {% endif %}
+          <li>
+            <a href="/search" {% if active == "search" %}aria-current="page"{% endif %}><span class="nav-icon" aria-hidden="true">&#8981;</span></a>
+          </li> 
+          
+          {% if request.state.user %}
+            <li class="push nav-user">Logged in as {{ request.state.user.Username }}</li>
+            <li>
+              <form method="post" action="/logout">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token(request) }}" />
+                <button type="submit">Log out</button>
+              </form>
+            </li>
+          {% else %}
+            <li class="push"><a href="/login">Log in</a></li>
+            <li><a href="/register">Register</a></li>
+          {% endif %} 
+          <li>
+            <button type="button" id="theme-toggle" aria-label="Switch to dark mode" title="Switch to dark mode">☾</button>
+          </li>
+       </ul>
+      </nav>
+    </header>
+
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+      <p>COS 243 - Multi-Tier Web Applications</p>
+    </footer>
+  </body>
+</html>

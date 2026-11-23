@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Deck Details{% endblock %}
+{% block content %}
+  <section>
+    <h2>{{ deck.title }}</h2>
+    <p>Owner: {{ deck.username }}</p>
+    <p>Tags: {{ deck.tags | default('(none)', true) }}</p>
+
+    
+    {% if deck.is_owner %}
+      <p><a href="/decks/{{ deck.id }}/cards/new">+ New card</a></p>
+    {% endif %}
+    <p><a href="/decks/{{ deck.id }}/study">Study this deck</a></p>
+
+    <p id="card-status" role="status"></p>
+
+    <table id="cards" data-deck-id="{{ deck.id }}" data-owner="{{ 'yes' if deck.is_owner else 'no' }}" {% if not cards %}hidden{% endif %}>
+      <thead>
+        <tr>
+          <th>Front</th>
+          <th>Back</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for card in cards %}
+          <tr>
+            
+            <td><pre class="card-text">{{ card.front }}</pre></td>
+            <td><pre class="card-text">{{ card.back }}</pre></td>
+            <td>
+              {% if deck.is_owner %}
+                <a href="/cards/{{ card.id }}/edit" class="button-link">Edit</a>
+                <form method="post" action="/cards/{{ card.id }}/delete" class="inline delete-card" data-card-id="{{ card.id }}">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token(request) }}" />
+                  <button type="submit">Delete</button>
+                </form>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <p id="no-cards" {% if cards %}hidden{% endif %}>
+      {% if q %}No cards match.{% else %}No cards yet.{% if deck.is_owner %} <a href="/decks/{{ deck.id }}/cards/new">Add the first one.</a>{% endif %}{% endif %}
+    </p>
+
+    <p>
+      
+      {% if deck.is_owner %}
+        <a href="/decks/{{ deck.id }}/edit">Edit deck</a>
+        &middot;
+      {% endif %}
+      <a href="/decks">Back to decks</a>
+    </p>
+  </section>
+{% endblock %}

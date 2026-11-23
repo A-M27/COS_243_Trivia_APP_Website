@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Study This Deck's Flashcards{% endblock %}
+{% block content %}
+  <section id="study" data-deck-id="{{ deck_id }}">
+    <h2 id="study-title">Study</h2>
+    <p id="study-status" role="status"></p>
+
+    <div id="study-area" class="study-area" hidden>
+      <div class="study-tools">
+        <p id="study-score"></p>
+        <button type="button" id="study-shuffle">Shuffle</button>
+      </div>
+      <ol id="study-progress" class="study-progress" aria-label="Cards in this deck"></ol>
+      <button type="button" id="study-card" class="study-card"></button>
+      <div class="study-grade">
+        <button type="button" id="study-missed">Missed it</button>
+        <button type="button" id="study-got">Got it</button>
+      </div>
+      <div class="study-controls">
+        <button type="button" id="study-prev">&lsaquo; Previous</button>
+        <p id="study-position"></p>
+        <button type="button" id="study-next">Next &rsaquo;</button>
+      </div>
+    </div>
+
+    <div id="study-results" class="study-results" hidden>
+      <h3 id="results-heading" tabindex="-1">Round complete</h3>
+      <p id="results-score"></p>
+      <h4 id="results-review-heading">Still to learn</h4>
+      <ul id="results-review" class="results-review"></ul>
+      <div class="study-results-actions">
+        <button type="button" id="study-review">Review these</button>
+        <button type="button" id="study-restart">Start over</button>
+      </div>
+    </div>
+
+    <p><a href="/decks/{{ deck_id }}">Back to the deck</a></p>
+  </section>
+{% endblock %}
