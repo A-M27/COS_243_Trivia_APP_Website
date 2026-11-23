@@ -75,12 +75,6 @@ def delete_user(
 
 
 
-
-
-
-
-
-
 @router.get("/decks/{deck_id}/cards", response_model=list[CardRead])
 def list_cards(
     deck_id: int,
@@ -149,9 +143,6 @@ def delete_card(
 
 
 
-
-
-
 """
 @router.post("/decks", status_code=201)
 def create_deck(
@@ -172,7 +163,6 @@ def create_deck(
     session.refresh(deck)
     return deck
 """
-
 
 
 
@@ -239,14 +229,6 @@ def delete_deck(
         session.delete(card)
     session.delete(deck)
     session.commit()
-
-
-
-
-
-
-
-
 
 
 

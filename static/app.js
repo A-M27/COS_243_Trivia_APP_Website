@@ -1,14 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
 async function problem(response) {
   const data = await response.json().catch(() => null);
   if (typeof data?.detail === "string") {

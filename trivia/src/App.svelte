@@ -76,7 +76,7 @@
   {#if mode === ""}
     <section class="trivia-card">
       <h2>Trivia</h2>
-      <p class="subtitle">Play a flashcard deck against your friends.</p>
+      <p class="subtitle">Play a flashcard deck against friends.</p>
       {#if conn.error}
         <p class="error" role="alert">{conn.error}</p>
       {/if}
