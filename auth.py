@@ -29,18 +29,6 @@ def verify_password(plain: str, hashed: str) -> bool:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 def make_csrf_token(request: Request) -> str:
     session_id = request.state.session_id
     return hmac.new(SECRET_KEY, session_id.encode(), hashlib.sha256).hexdigest()
